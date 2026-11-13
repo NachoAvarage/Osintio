@@ -3,105 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSINT Toolkit</title>
+<title>OSINT//TERMINAL</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <button id="theme-toggle" title="Toggle theme">🌙</button>
-  <h1>🕵️ OSINT Toolkit</h1>
-  <p>Open-source intelligence launcher &amp; Google Dork generator</p>
-</header>
+<div class="crt-overlay"></div>
 
-<!-- ===== GOOGLE DORK GENERATOR ===== -->
-<section id="dork-tool">
-  <h2>Google Dork Generator</h2>
-  <div class="dork-grid">
-    <div class="dork-field">
-      <label>Domain (e.g. example.com)</label>
-      <input id="d-domain" placeholder="example.com">
+<div class="shell">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-mark">▲</span>
+      <div>
+        <div class="logo-name">OSINT//TERMINAL</div>
+        <div class="logo-sub">v2.0 — local only</div>
+      </div>
     </div>
-    <div class="dork-field">
-      <label>Keywords / Search term</label>
-      <input id="d-keyword" placeholder="login">
-    </div>
-    <div class="dork-field">
-      <label>Filetype</label>
-      <select id="d-filetype">
-        <option value="">— none —</option>
-        <option>pdf</option><option>xls</option><option>xlsx</option>
-        <option>doc</option><option>docx</option><option>csv</option>
-        <option>txt</option><option>log</option><option>sql</option>
-        <option>xml</option><option>json</option><option>env</option>
-        <option>bak</option><option>conf</option>
-      </select>
-    </div>
-    <div class="dork-field">
-      <label>Exact phrase ("...")</label>
-      <input id="d-phrase" placeholder="admin password">
-    </div>
-    <div class="dork-field">
-      <label>Exclude words (comma separated)</label>
-      <input id="d-exclude" placeholder="github, youtube">
-    </div>
-    <div class="dork-field">
-      <label>Path contains (inurl)</label>
-      <input id="d-inurl" placeholder="admin">
-    </div>
-    <div class="dork-field">
-      <label>Title contains (intitle)</label>
-      <input id="d-intitle" placeholder="index of">
-    </div>
-  </div>
 
-  <div class="quick-presets">
-    <span>Presets:</span>
-    <button onclick="preset('directory')">Open directories</button>
-    <button onclick="preset('config')">Exposed configs</button>
-    <button onclick="preset('login')">Login pages</button>
-    <button onclick="preset('docs')">Documents</button>
-    <button onclick="preset('cameras')">Public cameras</button>
-    <button onclick="preset('backups')">Backup files</button>
-    <button onclick="preset('uploads')">Upload dirs</button>
-    <button onclick="preset('passwords')">Password files</button>
-  </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="dork">  <span class="t-icon">&gt;_</span> <span>Dork Forge</span>   <span class="t-key">1</span></button>
+      <button class="tab" data-tab="recon">        <span class="t-icon">◎</span>     <span>Target Recon</span>  <span class="t-key">2</span></button>
+      <button class="tab" data-tab="image">        <span class="t-icon">◱</span>     <span>Image Lab</span>     <span class="t-key">3</span></button>
+      <button class="tab" data-tab="hub">          <span class="t-icon">☰</span>     <span>Link Hub</span>      <span class="t-key">4</span></button>
+      <button class="tab" data-tab="archive">      <span class="t-icon">▤</span>     <span>Saved Dorks</span>   <span class="t-key">5</span> <span class="badge" id="hist-badge">0</span></button>
+    </nav>
 
-  <div class="dork-output">
-    <label>Generated query</label>
-    <div id="dork-result" class="result">site:</div>
-    <div class="actions">
-      <button class="primary" onclick="runDork()">Search on Google</button>
-      <button onclick="runDork('bing')">Bing</button>
-      <button onclick="runDork('duck')">DuckDuckGo</button>
-      <button onclick="runDork('yandex')">Yandex</button>
-      <button onclick="copyDork()">Copy</button>
-      <button onclick="saveDork()">💾 Save to history</button>
-      <button onclick="exportDorks()">⬇ Export history (JSON)</button>
-      <button onclick="clearHistory()">🗑 Clear history</button>
+    <div class="sidebar-foot">
+      <button id="theme-toggle" class="ghost-btn" title="Toggle phosphor tint">◐ tint</button>
+      <div class="status-line"><span class="dot"></span> static · no telemetry</div>
     </div>
-  </div>
-  <div id="dork-history"></div>
-</section>
+  </aside>
 
-<!-- ===== OSINT TARGET LAUNCHER ===== -->
-<section id="osint-tool">
-  <h2>OSINT Target Launcher</h2>
-  <div class="dork-field" style="max-width:480px">
-    <label>Target (domain, username, email, or IP)</label>
-    <input id="target" placeholder="example.com">
-  </div>
-  <div id="osint-categories"></div>
-</section>
+  <!-- ===== MAIN ===== -->
+  <main class="main">
 
-<!-- ===== LINK HUB ===== -->
-<section id="hub">
-  <h2>OSINT Link Hub</h2>
-  <div class="hub-grid" id="hub-grid"></div>
-</section>
+    <!-- TAB: DORK FORGE -->
+    <div class="page active" id="page-dork">
+      <div class="page-head">
+        <h2>&gt;_ DORK FORGE</h2>
+        <p>Compose a search query from operators. Everything stays in your browser.</p>
+      </div>
 
-<footer>
-  <p>For authorized research / educational use only. Data sourced from public search engines.</p>
-</footer>
+      <div class="panel">
+        <div class="field-row">
+          <div class="field">
+            <label>site:</label>
+            <input id="d-domain" placeholder="example.com" spellcheck="false">
+          </div>
+          <div class="field">
+            <label>inurl:</label>
+            <input id="d-inurl" placeholder="admin" spellcheck="false">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>intitle:</label>
+            <input id="d-intitle" placeholder="index of" spellcheck="false">
+          </div>
+          <div class="field">
+            <label>filetype:</label>
+            <select id="d-filetype">
+              <option value="">—</option>
+              <option>pdf</option><option>xls</option><option>xlsx</option>
+              <option>doc</option><option>docx</option><option>csv</option>
+              <option>txt</option><option>log</option><option>sql</option>
+              <option>xml</option><option>json</option><option>env</option>
+              <option>bak</option><option>conf</option><option>key</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>"exact phrase"</label>
+            <input id="d-phrase" placeholder="admin password" spellcheck="false">
+          </div>
+          <div class="field">
+            <label>exclude  (-word, -word)</label>
+            <input id="d-exclude" placeholder="github, youtube" spellcheck="false">
+          </div>
+        </div>
+        <div class="field">
+          <label>free keywords</label>
+          <input id="d-keyword" placeholder="confidential report 2024" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">// presets</div>
+        <div class="chip-row">
+          <button class="chip" onclick="preset('directory')">index of /</button>
+          <button class="chip" onclick="preset('config')">.env leaks</button>
+          <button class="chip" onclick="preset('login')">login pages</button>
+          <button class="chip" onclick="preset('docs')">docs</button>
+          <button class="chip" onclick="preset('cameras')">cameras</button>
+          <button class="chip" onclick="preset('backups')">backups</button>
+          <button class="chip" onclick="preset('uploads')">uploads</button>
+          <button class="chip" onclick="preset('passwords')">password files</button>
+          <button class="chip chip-clear" onclick="preset('clear')">reset</button>
+        </div>
+      </div>
+
+      <div class="panel output-panel">
+        <div class="panel-label">// query</div>
+        <div id="dork-result" class="query-out">site:</div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="runDork()">▶ google</button>
+          <button class="btn" onclick="runDork('bing')">bing</button>
+          <button class="btn" onclick="runDork('duck')">duckduckgo</button>
+          <button class="btn" onclick="runDork('yandex')">yandex</button>
+          <span class="spacer"></span>
+          <button class="btn" onclick="copyDork()">copy</button>
+          <button class="btn" onclick="saveDork()">save ⤓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: TARGET RECON -->
+    <div class="page" id="page-recon">
+      <div class="page-head">
+        <h2>◎ TARGET RECON</h2>
+        <p>Enter a target once — domain, username, email or IP. Click a module to launch it pre-filled.</p>
+      </div>
+
+      <div class="panel target-bar">
+        <label>&gt; target:</label>
+        <input id="target" placeholder="example.com  |  johndoe  |  user@mail.com  |  1.2.3.4" spellcheck="false">
+      </div>
+      <div id="osint-categories"></div>
+    </div>
+
+    <!-- TAB: IMAGE LAB -->
+    <div class="page" id="page-image">
+      <div class="page-head">
+        <h2>◱ IMAGE LAB</h2>
+        <p>Paste an image URL to run it through reverse image engines and metadata tools.</p>
+      </div>
+      <div class="panel target-bar">
+        <label>&gt; image url:</label>
+        <input id="imgurl" placeholder="https://example.com/photo.jpg" spellcheck="false">
+      </div>
+      <div class="tool-grid" id="image-tools"></div>
+    </div>
+
+    <!-- TAB: LINK HUB -->
+    <div class="page" id="page-hub">
+      <div class="page-head">
+        <h2>☰ LINK HUB</h2>
+        <p>Curated references and databases.</p>
+      </div>
+      <div class="hub-grid" id="hub-grid"></div>
+    </div>
+
+    <!-- TAB: SAVED DORKS -->
+    <div class="page" id="page-archive">
+      <div class="page-head">
+        <h2>▤ SAVED DORKS</h2>
+        <p>Stored locally in your browser. Export as JSON any time.</p>
+      </div>
+      <div class="btn-row" style="margin-bottom:16px">
+        <button class="btn" onclick="exportDorks()">⬇ export json</button>
+        <button class="btn btn-danger" onclick="clearHistory()">✕ clear all</button>
+      </div>
+      <div id="dork-history"></div>
+    </div>
+
+  </main>
+</div>
 
 <script src="script.js"></script>
 </body>
