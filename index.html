@@ -8,6 +8,7 @@
 </head>
 <body>
 <header>
+  <button id="theme-toggle" title="Toggle theme">🌙</button>
   <h1>🕵️ OSINT Toolkit</h1>
   <p>Open-source intelligence launcher &amp; Google Dork generator</p>
 </header>
@@ -60,26 +61,36 @@
     <button onclick="preset('login')">Login pages</button>
     <button onclick="preset('docs')">Documents</button>
     <button onclick="preset('cameras')">Public cameras</button>
+    <button onclick="preset('backups')">Backup files</button>
+    <button onclick="preset('uploads')">Upload dirs</button>
+    <button onclick="preset('passwords')">Password files</button>
   </div>
 
   <div class="dork-output">
     <label>Generated query</label>
     <div id="dork-result" class="result">site:</div>
-    <button class="primary" onclick="runDork()">Search on Google</button>
-    <button onclick="runDork('bing')">Bing</button>
-    <button onclick="runDork('duck')">DuckDuckGo</button>
-    <button onclick="copyDork()">Copy</button>
+    <div class="actions">
+      <button class="primary" onclick="runDork()">Search on Google</button>
+      <button onclick="runDork('bing')">Bing</button>
+      <button onclick="runDork('duck')">DuckDuckGo</button>
+      <button onclick="runDork('yandex')">Yandex</button>
+      <button onclick="copyDork()">Copy</button>
+      <button onclick="saveDork()">💾 Save to history</button>
+      <button onclick="exportDorks()">⬇ Export history (JSON)</button>
+      <button onclick="clearHistory()">🗑 Clear history</button>
+    </div>
   </div>
+  <div id="dork-history"></div>
 </section>
 
-<!-- ===== OSINT LAUNCHER ===== -->
+<!-- ===== OSINT TARGET LAUNCHER ===== -->
 <section id="osint-tool">
   <h2>OSINT Target Launcher</h2>
   <div class="dork-field" style="max-width:480px">
     <label>Target (domain, username, email, or IP)</label>
     <input id="target" placeholder="example.com">
   </div>
-  <div class="tool-grid" id="tool-grid"></div>
+  <div id="osint-categories"></div>
 </section>
 
 <!-- ===== LINK HUB ===== -->
