@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSINT Toolkit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>🕵️ OSINT Toolkit</h1>
+  <p>Open-source intelligence launcher &amp; Google Dork generator</p>
+</header>
+
+<!-- ===== GOOGLE DORK GENERATOR ===== -->
+<section id="dork-tool">
+  <h2>Google Dork Generator</h2>
+  <div class="dork-grid">
+    <div class="dork-field">
+      <label>Domain (e.g. example.com)</label>
+      <input id="d-domain" placeholder="example.com">
+    </div>
+    <div class="dork-field">
+      <label>Keywords / Search term</label>
+      <input id="d-keyword" placeholder="login">
+    </div>
+    <div class="dork-field">
+      <label>Filetype</label>
+      <select id="d-filetype">
+        <option value="">— none —</option>
+        <option>pdf</option><option>xls</option><option>xlsx</option>
+        <option>doc</option><option>docx</option><option>csv</option>
+        <option>txt</option><option>log</option><option>sql</option>
+        <option>xml</option><option>json</option><option>env</option>
+        <option>bak</option><option>conf</option>
+      </select>
+    </div>
+    <div class="dork-field">
+      <label>Exact phrase ("...")</label>
+      <input id="d-phrase" placeholder="admin password">
+    </div>
+    <div class="dork-field">
+      <label>Exclude words (comma separated)</label>
+      <input id="d-exclude" placeholder="github, youtube">
+    </div>
+    <div class="dork-field">
+      <label>Path contains (inurl)</label>
+      <input id="d-inurl" placeholder="admin">
+    </div>
+    <div class="dork-field">
+      <label>Title contains (intitle)</label>
+      <input id="d-intitle" placeholder="index of">
+    </div>
+  </div>
+
+  <div class="quick-presets">
+    <span>Presets:</span>
+    <button onclick="preset('directory')">Open directories</button>
+    <button onclick="preset('config')">Exposed configs</button>
+    <button onclick="preset('login')">Login pages</button>
+    <button onclick="preset('docs')">Documents</button>
+    <button onclick="preset('cameras')">Public cameras</button>
+  </div>
+
+  <div class="dork-output">
+    <label>Generated query</label>
+    <div id="dork-result" class="result">site:</div>
+    <button class="primary" onclick="runDork()">Search on Google</button>
+    <button onclick="runDork('bing')">Bing</button>
+    <button onclick="runDork('duck')">DuckDuckGo</button>
+    <button onclick="copyDork()">Copy</button>
+  </div>
+</section>
+
+<!-- ===== OSINT LAUNCHER ===== -->
+<section id="osint-tool">
+  <h2>OSINT Target Launcher</h2>
+  <div class="dork-field" style="max-width:480px">
+    <label>Target (domain, username, email, or IP)</label>
+    <input id="target" placeholder="example.com">
+  </div>
+  <div class="tool-grid" id="tool-grid"></div>
+</section>
+
+<!-- ===== LINK HUB ===== -->
+<section id="hub">
+  <h2>OSINT Link Hub</h2>
+  <div class="hub-grid" id="hub-grid"></div>
+</section>
+
+<footer>
+  <p>For authorized research / educational use only. Data sourced from public search engines.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
